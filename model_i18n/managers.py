@@ -14,7 +14,7 @@ def get_query_set(self):
     if MULTIDB_SUPPORT:
         kwargs['using'] = qs._db
     # return the global language set for user, to change the language use set_language function
-    return TransQuerySet(self.model, **kwargs).set_language(get_language())
+    return TransQuerySet(self.model, **kwargs).set_language(get_language()[:2])
 
 def set_language(self, language_code):
     """ Sets the current language """

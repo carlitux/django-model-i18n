@@ -43,6 +43,20 @@ def setup_admin(master_model, translation_model):
     model_admin.__class__.get_urls_orig = model_admin.__class__.get_urls
     model_admin.__class__.get_urls = get_urls
     model_admin.__class__.i18n_change_view = i18n_change_view
+    model_admin.__class__.queryset = queryset
+
+
+def queryset(self, request):
+    """
+    Returns a QuerySet of all model instances that can be edited by the
+    admin site. This is used by changelist_view. Using master_language
+    """
+    qs = self.model._default_manager.set_language(settings.MODEL_I18N_MASTER_LANGUAGE)
+    # TODO: this should be handled by some parameter to the ChangeList.
+    ordering = self.ordering or () # otherwise we might try to *None, which is bad ;)
+    if ordering:
+        qs = qs.order_by(*ordering)
+    return qs
 
 
 def get_urls(instance):
