@@ -5,7 +5,7 @@ from app.models import Item
 
 class ItemTranslation(translator.ModelTranslation):
     fields = ('title',)
-    db_table = 'item_translation'
+    #db_table = 'item_translation'
 
 
 translator.register(Item, ItemTranslation)
